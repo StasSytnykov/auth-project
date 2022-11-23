@@ -11,8 +11,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useSession, signIn } from "next-auth/react";
-import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
 
 function Copyright(props: any) {
   return (
@@ -43,11 +42,6 @@ export default function SignIn() {
       password: data.get("password"),
     });
   };
-
-  const { data: session } = useSession();
-  const router = useRouter();
-
-  if (session) router.push("/").catch(console.log);
 
   return (
     <ThemeProvider theme={theme}>
@@ -118,9 +112,17 @@ export default function SignIn() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                onClick={() => signIn()}
               >
                 Sign In
+              </Button>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={() => signIn("google")}
+              >
+                Sign In with Google
               </Button>
               <Grid container>
                 <Grid item xs>

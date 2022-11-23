@@ -1,25 +1,38 @@
 import Button from "@mui/material/Button";
-import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import {
+  signOut,
+  useSession,
+  getSession,
+  GetSessionParams,
+} from "next-auth/react";
 
 const HomePage = () => {
-  const router = useRouter();
   const { data: session } = useSession();
-  console.log(session);
-
-  const onSignOut = () => {
-    signOut().catch(console.log);
-    if (!session) {
-      router.push("/login").catch(console.log);
-    }
-  };
 
   return (
     <>
       <h1>Welcome to your profile {session?.user?.name}</h1>
-      <Button onClick={onSignOut}>Sign out</Button>
+      <Button type={"button"} onClick={() => signOut()}>
+        Sign out
+      </Button>
     </>
   );
 };
 
 export default HomePage;
+
+export const getServerSideProps = async (
+  context: GetSessionParams | undefined
+) => {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+      },
+    };
+  }
+
+  return { props: { session } };
+};

@@ -144,7 +144,7 @@ export default function SignUp() {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href={"/"}>Already have an account? Sign in</Link>
+                  <Link href={"/login"}>Already have an account? Sign in</Link>
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />
