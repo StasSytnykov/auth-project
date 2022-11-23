@@ -13,24 +13,6 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { signIn } from "next-auth/react";
 
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <a color="inherit" href="https://mui.com/">
-        Your Website
-      </a>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const theme = createTheme();
 
 export default function SignIn() {
@@ -125,16 +107,12 @@ export default function SignIn() {
                 Sign In with Google
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="/">Forgot password?</Link>
-                </Grid>
                 <Grid item>
                   <Link href="/register">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>
