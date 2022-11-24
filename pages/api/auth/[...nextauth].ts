@@ -28,7 +28,7 @@ export default NextAuth({
           password: string;
         };
 
-        if (email !== "test@gmail.com" && password !== "1234") {
+        if (email !== "test@gmail.com" || password !== "1234") {
           throw new Error("Invalid credentials");
         }
 

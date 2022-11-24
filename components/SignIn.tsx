@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 const theme = createTheme();
 
@@ -20,17 +21,22 @@ export default function SignIn() {
   const [userInfo, setUserInfo] = useState<{ email: string; password: string }>(
     { email: "", password: "" }
   );
+  const router = useRouter();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-    const res = await signIn("credentials", {
+
+    signIn("credentials", {
       email: userInfo.email,
       password: userInfo.password,
+      redirect: false,
+    }).then(async ({ ok, error }) => {
+      if (ok) {
+        await router.push("/");
+      } else {
+        console.log(error);
+        alert("Credentials do not match!");
+      }
     });
   };
 
