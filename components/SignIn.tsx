@@ -12,16 +12,25 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
 
 const theme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [userInfo, setUserInfo] = useState<{ email: string; password: string }>(
+    { email: "", password: "" }
+  );
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get("email"),
       password: data.get("password"),
+    });
+    const res = await signIn("credentials", {
+      email: userInfo.email,
+      password: userInfo.password,
     });
   };
 
@@ -66,6 +75,10 @@ export default function SignIn() {
               sx={{ mt: 1 }}
             >
               <TextField
+                onChange={({ target }) => {
+                  setUserInfo({ ...userInfo, email: target.value });
+                }}
+                value={userInfo.email}
                 margin="normal"
                 required
                 fullWidth
@@ -76,6 +89,10 @@ export default function SignIn() {
                 autoFocus
               />
               <TextField
+                onChange={({ target }) => {
+                  setUserInfo({ ...userInfo, password: target.value });
+                }}
+                value={userInfo.password}
                 margin="normal"
                 required
                 fullWidth
@@ -98,7 +115,7 @@ export default function SignIn() {
                 Sign In
               </Button>
               <Button
-                type="submit"
+                type="button"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
